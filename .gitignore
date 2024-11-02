@@ -1,0 +1,4 @@
+/drafts/
+bin*
+.DS_Store
+*.sublime-workspace
