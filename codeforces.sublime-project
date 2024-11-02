@@ -1,0 +1,24 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		},
+	],
+	"build_systems": [
+	    {
+	        "name": "LT Profile",
+	        "cmd": "ant"
+	    },
+	    {
+	        "name": "List",
+	        "cmd": "ls"
+	    },
+	    {
+	    	"name": "compile as CF",
+	    	// "cmd": ["clang++", "-Wall", "-Wextra", "-Wconversion", "-DONLINE_JUDGE", "-DDEBUG", "-O2", "-std=c++20", "$file"]
+	    	"cmd": ["bash", "$project_path/build-and-run.sh", "$file", "$file_base_name"]
+	    	// "cmd": ["bash", "-c", "echo $project_path $file_base_name"]
+	    }
+	]
+}
