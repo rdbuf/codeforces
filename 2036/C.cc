@@ -67,8 +67,12 @@ constexpr bool isin(const auto& x, const std::initializer_list<T>& values) {
 }
 
 template<class... Ts>
-constexpr bool isin2(const auto& x, const Ts&... values) {
+constexpr bool isin(const auto& x, const Ts&... values) {
 	return ((x == values) || ... || false);
+}
+
+constexpr bool within(const auto& x, const auto& lb, const auto& ub) {
+	return lb <= x && x <= ub;
 }
 
 struct Data {
@@ -79,20 +83,31 @@ struct Data {
 
 	void read() {
 		INP(string, s);
+		hs<I> idxs;
+		F(k, s.length()) if (string_view(s).substr(k, 4) == "1100") { idxs.insert(k); }
+
 		INP(I, q);
 		F(j, q) {
 			INP(I, i);
 			INP(I, v);
-			s[i-1]=v + '0';
+			char x = v + '0';
+			if (s[i-1] == x) { /*do nothing*/ }
+			else {
+				s[i-1] = x;
+				F(offset_variant, 7) {
+					I k = (i-1) + offset_variant - 3;
+					if (within(k, 0, s.size() - 1) && string_view(s).substr(k, 4) == "1100") { idxs.insert(k); }
+					else idxs.erase(k);
+				}
+			}
 
-			bool found = false;
-			F(k, s.length()) if (string_view(s).substr(k, 4) == "1100") { print("YES"); found = true; }
-			if (!found) print("NO");
+			print(idxs.size() > 0 ? "YES" : "NO");
 		}
 	}
 
 	void solve([[maybe_unused]] I testN) {
 		LOG(testN);
+		cout.flush();
 	}
 };
 
@@ -109,7 +124,7 @@ int main() {
 
 /***** TEST CASES START *****
 входные данныеСкопировать
-5
+6
 100
 4
 1 1
@@ -136,6 +151,9 @@ int main() {
 0100
 1
 1 1
+0
+1
+1 1
 выходные данныеСкопировать
 NO
 NO
@@ -153,4 +171,5 @@ NO
 NO
 NO
 YES
+NO
 *** TEST CASES END ****/
